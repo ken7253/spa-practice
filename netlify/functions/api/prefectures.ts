@@ -6,7 +6,7 @@ const API_VERSION = 'v1';
 
 const handler:Handler = async (event, context) => {
 
-  const resp = await fetch(`${API_ENDPOINT}/api/${API_VERSION}`, {
+  const resp = await fetch(`${API_ENDPOINT}/api/${API_VERSION}/prefectures/`, {
     headers: {
       'X-API-KEY': API_KEY,
     }
