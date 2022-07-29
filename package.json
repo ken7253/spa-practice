@@ -10,12 +10,14 @@
     "lint": "eslint src"
   },
   "dependencies": {
+    "@netlify/functions": "^1.0.0",
     "highcharts": "^10.2.0",
     "highcharts-react-official": "^3.1.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },
   "devDependencies": {
+    "@types/node": "^18.6.2",
     "@types/react": "^18.0.15",
     "@types/react-dom": "^18.0.6",
     "@typescript-eslint/eslint-plugin": "^5.31.0",
