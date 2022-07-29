@@ -23,9 +23,12 @@
   ],
   "overrides": [
     {
-      "files": ["netlify/functions/**.ts"],
+      "files": ["vite.config.ts", "netlify/functions/**/*.ts"],
       "env": {
         "node": true
+      },
+      "parserOptions": {
+        "project": "tsconfig.node.json"
       },
       "extends": [
         "eslint:recommended",
