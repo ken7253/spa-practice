@@ -20,5 +20,18 @@
     "plugin:@typescript-eslint/recommended-requiring-type-checking",
     "plugin:react/recommended",
     "prettier"
+  ],
+  "overrides": [
+    {
+      "files": ["netlify/functions/**.ts"],
+      "env": {
+        "node": true
+      },
+      "extends": [
+        "eslint:recommended",
+        "plugin:@typescript-eslint/recommended",
+        "plugin:@typescript-eslint/recommended-requiring-type-checking"
+      ]
+    }
   ]
 }
