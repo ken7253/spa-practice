@@ -1,5 +1,5 @@
 import React from "react";
-import "./index.css";
+import "./LineGraph.css";
 import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
 
