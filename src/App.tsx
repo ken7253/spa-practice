@@ -1,17 +1,8 @@
 import React, { ChangeEvent, useEffect, useState } from "react";
 import LineGraph from "./components/LineGraph/LineGraph";
 import CheckBox from "./components/CheckBox/CheckBox";
+import type { Result, Prefectures } from "./types/prefectures";
 import "./App.css";
-
-interface Prefectures {
-  message: null;
-  result: Result[];
-}
-
-interface Result {
-  prefCode: number;
-  prefName: string;
-}
 
 const App: React.FC = () => {
   const [prefectures, setPrefectures] = useState<Result[]>();
@@ -48,7 +39,11 @@ const App: React.FC = () => {
 
   return (
     <div className="App">
-      <LineGraph showDataId={divisions}>
+      <LineGraph
+        showDataId={divisions}
+        title={"test"}
+        prefectures={prefectures}
+      >
         {prefectures?.map((value) => {
           return (
             <CheckBox

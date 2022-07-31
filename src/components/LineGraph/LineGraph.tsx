@@ -3,10 +3,13 @@ import "./LineGraph.css";
 import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
 
+import type { Result } from "../../types/prefectures";
+
 interface Props {
   children?: ReactNode;
   title?: string;
   showDataId?: (number | string)[];
+  prefectures?: Result[];
 }
 
 const LineGraph: React.FC<Props> = (props: Props) => {
