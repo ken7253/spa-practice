@@ -6,24 +6,22 @@ export const handler: Handler = async (event) => {
   const API_ENDPOINT = "https://opendata.resas-portal.go.jp" as const;
   const API_VERSION = "v1" as const;
 
-  const query = event.queryStringParameters?.prefCode;
+  const { prefCode } = event.queryStringParameters;
+  const requestURL = `${API_ENDPOINT}/api/${API_VERSION}/population/composition/perYear?prefCode=${prefCode}`;
 
-  if (query === undefined) {
-    // 必要なクエリが指定されていない場合リクエストを行わない
+  if (!prefCode) {
+    // 必要なクエリが定義されていない場合はエラーを返す
     return {
       statusCode: 400,
       body: 'query parameter "prefCode" is undefined.',
     };
   }
 
-  const resp = await fetch(
-    `${API_ENDPOINT}/api/${API_VERSION}/population/composition/perYear?prefCode=${query}`,
-    {
-      headers: {
-        "X-API-KEY": API_KEY,
-      },
-    }
-  );
+  const data = await fetch(requestURL, {
+    headers: {
+      "X-API-KEY": API_KEY,
+    },
+  });
 
   const responseHeaderSetting = {
     "Access-Control-Allow-Origin": "*",
@@ -32,6 +30,6 @@ export const handler: Handler = async (event) => {
   return {
     statusCode: 200,
     headers: responseHeaderSetting,
-    body: JSON.stringify(await resp.json()),
+    body: JSON.stringify(await data.json()),
   };
 };
