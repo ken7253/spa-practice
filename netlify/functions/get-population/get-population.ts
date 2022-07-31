@@ -39,6 +39,10 @@ export const handler: Handler = async (event) => {
     },
   });
 
+  /**
+   * @todo 絞り込み処理の型定義とエラー処理が不十分なので修正する。
+   */
+
   const toJSON = (await resp.json()) as Record<keyof Response, unknown>;
   const result = toJSON.result as Record<keyof History, unknown>;
   const data = result.data;
