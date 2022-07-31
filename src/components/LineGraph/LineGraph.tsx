@@ -5,13 +5,14 @@ import HighchartsReact from "highcharts-react-official";
 
 interface Props {
   children?: ReactNode;
+  title?: string;
   showDataId?: (number | string)[];
 }
 
 const LineGraph: React.FC<Props> = (props: Props) => {
   const options: Highcharts.Options = {
     title: {
-      text: "テスト",
+      text: props.title,
     },
     series: [
       {
