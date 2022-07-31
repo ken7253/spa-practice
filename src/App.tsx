@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { ChangeEvent, useEffect, useState } from "react";
 import LineGraph from "./components/LineGraph/LineGraph";
 import CheckBox from "./components/CheckBox/CheckBox";
 import "./App.css";
@@ -16,6 +16,18 @@ interface Result {
 const App: React.FC = () => {
 
   const [prefectures, setPrefectures] = useState<Result[]>();
+  const [divisions, setDivisions] = useState<number[]>([]);
+
+  const changeHandler = (e:ChangeEvent) => {
+    if (!(e.target instanceof HTMLInputElement)) return;
+    const selectedPrefCode = parseInt(e.target.value, 10);
+    if (isNaN(selectedPrefCode)) return;
+    if (e.target.checked) {
+      setDivisions([...divisions, selectedPrefCode]);
+    } else {
+      setDivisions(divisions.filter((val) => val !== selectedPrefCode));
+    }
+  }
 
   useEffect(() => {
     const APIData = fetch('http://localhost:8888/.netlify/functions/get-prefectures');
@@ -37,7 +49,7 @@ const App: React.FC = () => {
     <div className="App">
       <LineGraph>
         {prefectures?.map((value) => {
-          return(<CheckBox key={value.prefCode}>{value.prefName}</CheckBox>);
+          return(<CheckBox key={value.prefCode} value={value.prefCode} onChange={(e) => changeHandler(e)}>{value.prefName}</CheckBox>);
         })}
       </LineGraph>
     </div>

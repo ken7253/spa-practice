@@ -1,10 +1,10 @@
-import React from "react";
+import React, { ChangeEvent } from "react";
 import "./CheckBox.css";
 
 interface Props {
   children?: string;
-  value?: string;
-  onChange?: () => void;
+  value?: string | number;
+  onChange?: (e:ChangeEvent) => void;
 }
 
 const CheckBox:React.FC<Props> = (props:Props) => {
