@@ -4,21 +4,20 @@ import CheckBox from "./components/CheckBox/CheckBox";
 import "./App.css";
 
 interface Prefectures {
-  message: null,
-  result: Result[]
+  message: null;
+  result: Result[];
 }
 
 interface Result {
-  prefCode: number,
-  prefName: string
+  prefCode: number;
+  prefName: string;
 }
 
 const App: React.FC = () => {
-
   const [prefectures, setPrefectures] = useState<Result[]>();
   const [divisions, setDivisions] = useState<number[]>([]);
 
-  const changeHandler = (e:ChangeEvent) => {
+  const changeHandler = (e: ChangeEvent) => {
     if (!(e.target instanceof HTMLInputElement)) return;
     const selectedPrefCode = parseInt(e.target.value, 10);
     if (isNaN(selectedPrefCode)) return;
@@ -27,29 +26,39 @@ const App: React.FC = () => {
     } else {
       setDivisions(divisions.filter((val) => val !== selectedPrefCode));
     }
-  }
+  };
 
   useEffect(() => {
-    const APIData = fetch('http://localhost:8888/.netlify/functions/get-prefectures');
+    const APIData = fetch(
+      "http://localhost:8888/.netlify/functions/get-prefectures"
+    );
 
     void APIData.then(async (resp) => {
-      const json = await resp.json() as Record<keyof Prefectures, unknown>;
+      const json = (await resp.json()) as Record<keyof Prefectures, unknown>;
       if (typeof json !== "object" || json === null) return;
       if (Array.isArray(json.result)) {
         setPrefectures(json.result);
       }
-    })
+    });
 
     return () => {
       setPrefectures(undefined);
-    }
-  },[])
+    };
+  }, []);
 
   return (
     <div className="App">
-      <LineGraph>
+      <LineGraph showDataId={divisions}>
         {prefectures?.map((value) => {
-          return(<CheckBox key={value.prefCode} value={value.prefCode} onChange={(e) => changeHandler(e)}>{value.prefName}</CheckBox>);
+          return (
+            <CheckBox
+              key={value.prefCode}
+              value={value.prefCode}
+              onChange={(e) => changeHandler(e)}
+            >
+              {value.prefName}
+            </CheckBox>
+          );
         })}
       </LineGraph>
     </div>
