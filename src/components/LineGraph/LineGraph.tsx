@@ -4,19 +4,7 @@ import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
 
 import type { Result } from "../../types/prefectures";
-
-interface Response {
-  label: string;
-  data: {
-    year: number;
-    value: number;
-  }[];
-}
-
-interface chartData {
-  name: string;
-  data: number[];
-}
+import type { SendData } from "../../../netlify/functions/get-population/get-population";
 
 interface Props {
   children?: ReactNode;
@@ -26,19 +14,24 @@ interface Props {
 }
 
 const LineGraph: React.FC<Props> = (props: Props) => {
-  const [graph, setGraph] = useState<chartData[]>();
+  const [graph, setGraph] = useState<SendData[]>();
 
   const options: Highcharts.Options = {
     title: {
       text: props.title,
     },
-    series: graph?.map((population) => {
-      return {
-        name: population.name,
-        type: "line",
-        data: population.data,
-      };
-    }),
+    series: graph
+      ? graph.map((population: SendData) => {
+          const divisionName = props.prefectures?.find(
+            (prefecture) => prefecture.prefCode === population.prefCode
+          );
+          return {
+            name: divisionName?.prefName,
+            type: "line",
+            data: population.data,
+          };
+        })
+      : undefined,
   };
 
   useEffect(() => {
@@ -49,22 +42,17 @@ const LineGraph: React.FC<Props> = (props: Props) => {
       return fetch(`${requestURL}?prefCode=${value}`);
     });
 
-    const converter = async (): Promise<chartData[]> => {
-      const fullResponse = await Promise.all(APIData);
-      const jsonList = await Promise.all(
-        fullResponse.map((value) => value.json())
+    const formed = async (): Promise<SendData[]> => {
+      const raw = await Promise.all(APIData);
+      const json = Promise.all(
+        raw.map<Promise<SendData>>((item) => item.json())
       );
-      const formed = jsonList.map((value: unknown) => {
-        return {
-          name: value.label,
-          data: value.data.map((v) => v.value),
-        };
-      });
 
-      return formed;
+      return json;
     };
-    void converter().then((v) => {
-      setGraph(v);
+
+    void formed().then((value) => {
+      setGraph(value);
     });
   }, [props.showDataId]);
 
