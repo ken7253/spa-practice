@@ -1,7 +1,7 @@
 import { Handler } from "@netlify/functions";
 import fetch from "node-fetch";
 
-interface Response {
+interface ReceiveData {
   message: null;
   result: {
     boundaryYear: number;
@@ -14,7 +14,12 @@ interface History {
   data: {
     year: number;
     value: number;
-  };
+  }[];
+}
+
+export interface SendData {
+  prefCode: number;
+  data: number[];
 }
 
 export const handler: Handler = async (event) => {
@@ -39,25 +44,32 @@ export const handler: Handler = async (event) => {
     },
   });
 
-  /**
-   * @todo 絞り込み処理の型定義とエラー処理が不十分なので修正する。
-   */
+  const toJSON = (await resp.json()) as ReceiveData; // 手動で型定義
+  const result = toJSON.result;
+  const categoryData = result.data;
 
-  const toJSON = (await resp.json()) as Record<keyof Response, unknown>;
-  const result = toJSON.result as Record<keyof History, unknown>;
-  const data = result.data;
+  const formatData = (data: History[]): SendData => {
+    if (!Array.isArray(data)) return;
+
+    const totalPopulation = data[0];
+
+    const prefNum = parseInt(prefCode, 10);
+    if (isNaN(prefNum)) return;
+    return {
+      prefCode: prefNum,
+      data: totalPopulation.data.map((item) => item.value),
+    };
+  };
+
+  console.log(formatData(categoryData));
 
   const responseHeaderSetting = {
     "Access-Control-Allow-Origin": "*",
   };
 
-  if (!Array.isArray(data)) {
-    throw new Error('"data" type ERROR');
-  }
-
   return {
     statusCode: 200,
     headers: responseHeaderSetting,
-    body: JSON.stringify(data[0]),
+    body: JSON.stringify(formatData(categoryData)),
   };
 };
