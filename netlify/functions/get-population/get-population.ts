@@ -48,6 +48,11 @@ export const handler: Handler = async (event) => {
   const result = toJSON.result;
   const categoryData = result.data;
 
+  /**
+   * フロントエンド側で扱いやすいやすいようにデータを成形する関数
+   * @param data 成形前のデータ
+   * @returns APIで返却する値
+   */
   const formatData = (data: History[]): SendData => {
     if (!Array.isArray(data)) return;
 
