@@ -66,8 +66,6 @@ export const handler: Handler = async (event) => {
     };
   };
 
-  console.log(formatData(categoryData));
-
   const responseHeaderSetting = {
     "Access-Control-Allow-Origin": "*",
   };
