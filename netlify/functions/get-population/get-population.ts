@@ -67,7 +67,7 @@ export const handler: Handler = async (event) => {
   };
 
   const responseHeaderSetting = {
-    "Access-Control-Allow-Origin": "*",
+    "Access-Control-Allow-Origin": process.env.VITE_VIEW_HOST,
   };
 
   return {
