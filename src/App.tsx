@@ -1,7 +1,7 @@
 import React, { ChangeEvent, useEffect, useState } from "react";
 import LineGraph from "./components/LineGraph/LineGraph";
 import CheckBox from "./components/CheckBox/CheckBox";
-import type { Result, Prefectures } from "./types/prefectures";
+import type { Result, Prefectures } from "./types/response/prefectures";
 import "./App.css";
 
 const App: React.FC = () => {

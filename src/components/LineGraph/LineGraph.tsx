@@ -3,8 +3,8 @@ import "./LineGraph.css";
 import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
 
-import type { Result } from "../../types/prefectures";
-import type { SendData } from "../../../netlify/functions/get-population/get-population";
+import type { Result } from "../../types/response/prefectures";
+import type { SendData } from "../../types/response/population";
 
 interface Props {
   children?: ReactNode;
@@ -45,7 +45,7 @@ const LineGraph: React.FC<Props> = (props: Props) => {
     const formed = async (): Promise<SendData[]> => {
       const raw = await Promise.all(APIData);
       const json = Promise.all(
-        raw.map<Promise<SendData>>((item) => item.json())
+        raw.map((item) => item.json() as Promise<SendData>)
       );
 
       return json;

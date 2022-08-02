@@ -17,7 +17,7 @@ interface History {
   }[];
 }
 
-export interface SendData {
+interface SendData {
   prefCode: number;
   data: number[];
 }
