@@ -20,9 +20,8 @@ const App: React.FC = () => {
   };
 
   useEffect(() => {
-    const APIData = fetch(
-      "http://localhost:8888/.netlify/functions/get-prefectures"
-    );
+    const host = import.meta.env.VITE_API_HOST as string;
+    const APIData = fetch(`${host}.netlify/functions/get-prefectures`);
 
     void APIData.then(async (resp) => {
       const json = (await resp.json()) as Record<keyof Prefectures, unknown>;

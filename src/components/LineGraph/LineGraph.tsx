@@ -21,7 +21,7 @@ const LineGraph: React.FC<Props> = (props: Props) => {
       text: props.title,
     },
     series: graph
-      ? graph.map((population: SendData) => {
+      ? graph.map((population) => {
           const divisionName = props.prefectures?.find(
             (prefecture) => prefecture.prefCode === population.prefCode
           );
@@ -35,9 +35,9 @@ const LineGraph: React.FC<Props> = (props: Props) => {
   };
 
   useEffect(() => {
+    const host = import.meta.env.VITE_API_HOST as string;
     if (!props.showDataId) return;
-    const requestURL =
-      "http://localhost:8888/.netlify/functions/get-population";
+    const requestURL = `${host}.netlify/functions/get-population`;
     const APIData = props.showDataId?.map((value) => {
       return fetch(`${requestURL}?prefCode=${value}`);
     });
