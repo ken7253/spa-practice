@@ -16,6 +16,19 @@ const LineGraph: React.FC<Props> = (props: Props) => {
   const [graph, setGraph] = useState<SendData[]>();
 
   const options: Highcharts.Options = {
+    title: {
+      text: "各都道府県の人口推移",
+    },
+    xAxis: {
+      title: {
+        text: "年数",
+      },
+    },
+    yAxis: {
+      title: {
+        text: "総人口",
+      },
+    },
     series: graph
       ? graph.map((population) => {
           const divisionName = props.prefectures?.find(
@@ -25,6 +38,8 @@ const LineGraph: React.FC<Props> = (props: Props) => {
             name: divisionName?.prefName,
             type: "line",
             data: population.data,
+            pointStart: 1950,
+            pointInterval: 5,
           };
         })
       : undefined,
