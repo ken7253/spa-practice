@@ -8,7 +8,6 @@ import type { SendData } from "../../types/response/population";
 
 interface Props {
   children?: ReactNode;
-  title?: string;
   showDataId?: (number | string)[];
   prefectures?: Result[];
 }
@@ -17,9 +16,6 @@ const LineGraph: React.FC<Props> = (props: Props) => {
   const [graph, setGraph] = useState<SendData[]>();
 
   const options: Highcharts.Options = {
-    title: {
-      text: props.title,
-    },
     series: graph
       ? graph.map((population) => {
           const divisionName = props.prefectures?.find(

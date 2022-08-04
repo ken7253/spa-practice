@@ -38,11 +38,7 @@ const App: React.FC = () => {
 
   return (
     <div className="App">
-      <LineGraph
-        showDataId={divisions}
-        title={"test"}
-        prefectures={prefectures}
-      >
+      <LineGraph showDataId={divisions} prefectures={prefectures}>
         {prefectures?.map((value) => {
           return (
             <CheckBox
