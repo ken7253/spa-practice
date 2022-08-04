@@ -29,6 +29,12 @@ const LineGraph: React.FC<Props> = (props: Props) => {
         text: "総人口",
       },
     },
+    chart: {
+      scrollablePlotArea: {
+        minWidth: 700,
+        scrollPositionX: 0,
+      },
+    },
     series: graph
       ? graph.map((population) => {
           const divisionName = props.prefectures?.find(
@@ -70,7 +76,9 @@ const LineGraph: React.FC<Props> = (props: Props) => {
   return (
     <>
       <div className="controller">{props.children}</div>
-      <HighchartsReact highcharts={Highcharts} options={options} />
+      <div className="charts">
+        <HighchartsReact highcharts={Highcharts} options={options} />
+      </div>
     </>
   );
 };
