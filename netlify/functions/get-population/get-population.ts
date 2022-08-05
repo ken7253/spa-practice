@@ -26,6 +26,7 @@ export const handler: Handler = async (event) => {
   const API_KEY = process.env.API_KEY ?? "";
   const API_ENDPOINT = "https://opendata.resas-portal.go.jp" as const;
   const API_VERSION = "v1" as const;
+  const CACHE_TTL = 3600 as const;
 
   const { prefCode } = event.queryStringParameters;
   const requestURL = `${API_ENDPOINT}/api/${API_VERSION}/population/composition/perYear?prefCode=${prefCode}`;
@@ -41,6 +42,7 @@ export const handler: Handler = async (event) => {
   const resp = await fetch(requestURL, {
     headers: {
       "X-API-KEY": API_KEY,
+      "Cache-Control": `max-age=${CACHE_TTL}`,
     },
   });
 

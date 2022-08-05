@@ -1,6 +1,8 @@
 import React, { ChangeEvent, useEffect, useState } from "react";
 import LineGraph from "./components/LineGraph/LineGraph";
 import CheckBox from "./components/CheckBox/CheckBox";
+import AppHeader from "./components/Header/AppHeader";
+
 import type { Result, Prefectures } from "./types/response/prefectures";
 import "./App.css";
 
@@ -38,11 +40,8 @@ const App: React.FC = () => {
 
   return (
     <div className="App">
-      <LineGraph
-        showDataId={divisions}
-        title={"test"}
-        prefectures={prefectures}
-      >
+      <AppHeader />
+      <LineGraph showDataId={divisions} prefectures={prefectures}>
         {prefectures?.map((value) => {
           return (
             <CheckBox

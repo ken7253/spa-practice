@@ -8,7 +8,6 @@ import type { SendData } from "../../types/response/population";
 
 interface Props {
   children?: ReactNode;
-  title?: string;
   showDataId?: (number | string)[];
   prefectures?: Result[];
 }
@@ -18,7 +17,23 @@ const LineGraph: React.FC<Props> = (props: Props) => {
 
   const options: Highcharts.Options = {
     title: {
-      text: props.title,
+      text: "各都道府県の人口推移",
+    },
+    xAxis: {
+      title: {
+        text: "年数",
+      },
+    },
+    yAxis: {
+      title: {
+        text: "総人口",
+      },
+    },
+    chart: {
+      scrollablePlotArea: {
+        minWidth: 700,
+        scrollPositionX: 0,
+      },
     },
     series: graph
       ? graph.map((population) => {
@@ -29,6 +44,8 @@ const LineGraph: React.FC<Props> = (props: Props) => {
             name: divisionName?.prefName,
             type: "line",
             data: population.data,
+            pointStart: 1950,
+            pointInterval: 5,
           };
         })
       : undefined,
@@ -59,7 +76,9 @@ const LineGraph: React.FC<Props> = (props: Props) => {
   return (
     <>
       <div className="controller">{props.children}</div>
-      <HighchartsReact highcharts={Highcharts} options={options} />
+      <div className="charts">
+        <HighchartsReact highcharts={Highcharts} options={options} />
+      </div>
     </>
   );
 };
